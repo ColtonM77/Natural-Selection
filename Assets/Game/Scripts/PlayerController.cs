@@ -1,54 +1,158 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
 
-    //Movement variable
     public float speed;
-    public float jump;
-    float moveVelocity;
+    public float jumpForce;
+    private float moveInput;
 
-    //Grounded Variables
-    bool grounded = true;
+    private Rigidbody2D rb;
 
-    void Update()
+    private bool facingRight = true;
+
+    private bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+
+    private int extraJumps;
+    public int extraJumpsMax;
+    private bool canDoubleJump;
+
+    private float jumpTimeCounter;
+    public float jumpTime;
+    private bool isJumping;
+
+
+    private Animator anim;
+
+
+    // Start is called before the first frame update
+    void Start()
     {
-        //Jumping code
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))// allows the user to player with different key layouts
+        if (isLocalPlayer)
         {
-            if (grounded)
+            extraJumps = extraJumpsMax;
+            anim = GetComponent<Animator>();
+            rb = GetComponent<Rigidbody2D>();
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+
+
+            moveInput = Input.GetAxisRaw("Horizontal");
+            Debug.Log(moveInput);
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+
+            if (moveInput == 0)
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
+                anim.SetBool("isRunning", false);
+            }
+            else
+            {
+                anim.SetBool("isRunning", true);
+            }
+
+            if (facingRight == false && moveInput > 0)
+            {
+                Flip();
+            }
+            else if (facingRight == true && moveInput < 0)
+            {
+                Flip();
             }
         }
 
-        moveVelocity = 0;
+    }
 
-        //code to Move horizontaly
-        if (Input.GetKey(KeyCode.LeftArrow))
+    void Update()
+    {
+        /*
+        if(isGrounded == true)
         {
-            moveVelocity = -speed;
-            
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            moveVelocity = speed;
-            
+            isJumping = false;
+            extraJumps = extraJumpsMax;
         }
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+            extraJumps--;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+        }*/
+
+        /*if (isGrounded == true)
+        {
+            isJumping = false;
+            canDoubleJump = false;
+            extraJumps = extraJumpsMax;
+        }
+
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
+            extraJumps = extraJumpsMax;
+            canDoubleJump = false;
+            rb.velocity = Vector2.up * jumpForce;
+
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+        else if (Input.GetKey(KeyCode.UpArrow) && isJumping == false && extraJumps > 0)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+            extraJumps--;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
+        {
+            rb.velocity = Vector2.up * jumpForce;
+        }
+    
+    
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            isJumping = false;
+        }
+        */
+
 
     }
-    //this section of code checks to see if the player is grounded
-    void OnTriggerEnter2D()//the OnTriggerEnter2D method is a unity method that connects to a box collider
-    {
-        grounded = true;
-    }
-    void OnTriggerExit2D()
-    {
-        grounded = false;
-    }
 
+    void Flip()
+    {
+        if (isLocalPlayer)
+        {
+            facingRight = !facingRight;
+            Vector3 Scaler = transform.localScale;
+            Scaler.x *= -1;
+            transform.localScale = Scaler;
+        }
+
+    }
 }
