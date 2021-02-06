@@ -136,11 +136,11 @@ MonoBehaviour:
   speed: 6
   jumpForce: 18
   groundCheck: {fileID: 2349620937754717251}
-  checkRadius: 50
+  checkRadius: 0.5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 512
-  extraJumpsValue: 2
+  extraJumpsValue: 1
 --- !u!61 &2349620938590841859
 BoxCollider2D:
   m_ObjectHideFlags: 0

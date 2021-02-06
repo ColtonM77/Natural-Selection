@@ -77,15 +77,7 @@ public class PlayerController : NetworkBehaviour
             if (isGrounded == true)
             {
                 extraJumps = extraJumpsValue;
-                Debug.Log("GROUNDED IS TRUE");
             }
-
-            
-            if (isGrounded == false)
-            {
-                Debug.Log("GROUNDED IS FALSE");
-            }
-            
 
             if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0)
             {
