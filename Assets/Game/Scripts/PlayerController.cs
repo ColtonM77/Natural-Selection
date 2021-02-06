@@ -20,12 +20,7 @@ public class PlayerController : NetworkBehaviour
     public LayerMask whatIsGround;
 
     private int extraJumps;
-    public int extraJumpsMax;
-    private bool canDoubleJump;
-
-    private float jumpTimeCounter;
-    public float jumpTime;
-    private bool isJumping;
+    public int extraJumpsValue;
 
 
     private Animator anim;
@@ -36,7 +31,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            extraJumps = extraJumpsMax;
+            extraJumps = extraJumpsValue;
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
         }
@@ -77,70 +72,32 @@ public class PlayerController : NetworkBehaviour
 
     void Update()
     {
-        /*
-        if(isGrounded == true)
+        if (isLocalPlayer)
         {
-            isJumping = false;
-            extraJumps = extraJumpsMax;
-        }
+            if (isGrounded == true)
+            {
+                extraJumps = extraJumpsValue;
+                Debug.Log("GROUNDED IS TRUE");
+            }
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0)
-        {
-            rb.velocity = Vector2.up * jumpForce;
-            extraJumps--;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
-        {
-            rb.velocity = Vector2.up * jumpForce;
-        }*/
+            
+            if (isGrounded == false)
+            {
+                Debug.Log("GROUNDED IS FALSE");
+            }
+            
 
-        /*if (isGrounded == true)
-        {
-            isJumping = false;
-            canDoubleJump = false;
-            extraJumps = extraJumpsMax;
-        }
-
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            isJumping = true;
-            jumpTimeCounter = jumpTime;
-            extraJumps = extraJumpsMax;
-            canDoubleJump = false;
-            rb.velocity = Vector2.up * jumpForce;
-
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow) && isJumping == true)
-        {
-            if (jumpTimeCounter > 0)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0)
             {
                 rb.velocity = Vector2.up * jumpForce;
-                jumpTimeCounter -= Time.deltaTime;
+                extraJumps--;
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
             {
-                isJumping = false;
+                rb.velocity = Vector2.up * jumpForce;
             }
+     
         }
-        else if (Input.GetKey(KeyCode.UpArrow) && isJumping == false && extraJumps > 0)
-        {
-            rb.velocity = Vector2.up * jumpForce;
-            extraJumps--;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
-        {
-            rb.velocity = Vector2.up * jumpForce;
-        }
-    
-    
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            isJumping = false;
-        }
-        */
-
 
     }
 
