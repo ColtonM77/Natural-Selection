@@ -129,14 +129,14 @@ namespace NaturalSelection.Mirror.Game.Lobby
             {
                 if (!IsReadyToStart()) { return; }
 
-                ServerChangeScene("Scene_Map_01");
+                ServerChangeScene("newMap1");
             }
         }
 
         public override void ServerChangeScene(string newSceneName)
         {
             //From menu to game
-            if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Scene_Map"))
+            if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("newMap1"))
             {
                 for(int i = RoomPlayers.Count - 1; i >=0; i--)
                 {
@@ -153,7 +153,7 @@ namespace NaturalSelection.Mirror.Game.Lobby
 
         public override void OnServerSceneChanged(string sceneName)
         {
-            if (sceneName.StartsWith("Scene_Map"))
+            if (sceneName.StartsWith("newMap1"))
             {
                 GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
                 NetworkServer.Spawn(playerSpawnSystemInstance);
