@@ -21,7 +21,16 @@ public class PlayerHealth : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (currentHealth <= 0)
+        {
+            NetworkServer.Destroy(gameObject);
+        }
+    }
+
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.transform.GetComponent<Bullet>())
         {
             TakeDamage(20);
         }

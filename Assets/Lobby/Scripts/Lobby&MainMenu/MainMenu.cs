@@ -15,5 +15,10 @@ namespace NaturalSelection.Mirror.Game.Lobby
 
             landingPagePanel.SetActive(false);
         }
+
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
     }
 }

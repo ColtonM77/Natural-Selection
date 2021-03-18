@@ -131,7 +131,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         activeWeapon.direction = mousePos - (Vector2)activeWeapon.Gun.position;
-        FaceMouse();
+        //FaceMouse();
 
         if (Input.GetButtonDown("Fire1")) //Fire1 is mouse 1st click
         {
@@ -222,12 +222,14 @@ public class PlayerController : NetworkBehaviour
     void Flip()
     {
         if (!isLocalPlayer) return;
-
+        //Switch the way the player is labelled as facing.
         facingRight = !facingRight;
+
+        /*
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
-
-
+        */
+        transform.Rotate(0f, 180f, 0f);
     }
 }

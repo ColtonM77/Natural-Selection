@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun: {fileID: 3715657310641979333}
   gunAnimator: {fileID: 3715657310641979332}
+  direction: {x: 0, y: 0}
   Bullet: {fileID: 1690712579175391072, guid: 62b2608ebbf4d5d4085d9c2e25474614, type: 3}
   BulletSpeed: 1200
   ShootPoint: {fileID: 667613188501752510}
@@ -734,7 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   clientAuthority: 1
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
@@ -884,6 +885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun: {fileID: 3715657310641979333}
   gunAnimator: {fileID: 3715657310641979332}
+  direction: {x: 0, y: 0}
   Bullet: {fileID: 1690712579175391072, guid: 00411d6e553915d46a170b5aee391fae, type: 3}
   BulletSpeed: 1700
   ShootPoint: {fileID: 2570469510909901373}
@@ -1614,6 +1616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun: {fileID: 3715657310641979333}
   gunAnimator: {fileID: 3715657310641979332}
+  direction: {x: 0, y: 0}
   Bullet: {fileID: 1690712579175391072, guid: af30d853aafe11047a493b4524dd76f4, type: 3}
   BulletSpeed: 1500
   ShootPoint: {fileID: 8950066552238579530}
