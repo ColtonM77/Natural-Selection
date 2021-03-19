@@ -36,6 +36,8 @@ public class PlayerController : NetworkBehaviour
     private Weapon activeWeapon;
     private float weaponCooldownTime;
 
+    public Transform canvasBoard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -131,7 +133,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         activeWeapon.direction = mousePos - (Vector2)activeWeapon.Gun.position;
-        //FaceMouse();
+        FaceMouse();
 
         if (Input.GetButtonDown("Fire1")) //Fire1 is mouse 1st click
         {
@@ -212,7 +214,6 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    [Command]
     //gun faces mouse
     void FaceMouse()
     {
@@ -231,5 +232,6 @@ public class PlayerController : NetworkBehaviour
         transform.localScale = Scaler;
         */
         transform.Rotate(0f, 180f, 0f);
+        canvasBoard.transform.Rotate(0f, 180f, 0f);
     }
 }
