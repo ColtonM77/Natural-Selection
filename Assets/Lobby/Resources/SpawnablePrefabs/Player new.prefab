@@ -279,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667613188501752497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.52, y: 0.11, z: 0}
+  m_LocalPosition: {x: 0.621, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 667613187740136483}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 2349620938590841854}
   - component: {fileID: 2349620938590841853}
   - component: {fileID: 2349620938590841852}
-  - component: {fileID: 2349620938590841859}
+  - component: {fileID: -2736678977673337556}
   - component: {fileID: 2349620938590841858}
   - component: {fileID: 2349620938590841855}
   - component: {fileID: -8672265187641875670}
@@ -643,8 +643,9 @@ MonoBehaviour:
   - {fileID: 2570469510806933893}
   activeWeaponSynced: 0
   canvasBoard: {fileID: 7627850562563988037}
---- !u!61 &2349620938590841859
-BoxCollider2D:
+  playerId: 0
+--- !u!70 &-2736678977673337556
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -656,19 +657,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012994766, y: 0.006499052}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.9375, y: 1.0625}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.7555733, y: 0.9715152}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.045902252, y: 0.021416187}
+  m_Size: {x: 0.7986717, y: 0.99198055}
+  m_Direction: 0
 --- !u!50 &2349620938590841858
 Rigidbody2D:
   serializedVersion: 4
@@ -1312,7 +1303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5763811603137209936
 RectTransform:
   m_ObjectHideFlags: 0

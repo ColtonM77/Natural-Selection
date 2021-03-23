@@ -38,6 +38,11 @@ public class PlayerController : NetworkBehaviour
 
     public Transform canvasBoard;
 
+    //turn based
+    public bool IsTurn { get { return PlayerManager.singleton.IsMyTurn(playerId); } }
+
+    public int playerId;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +59,8 @@ public class PlayerController : NetworkBehaviour
     void FixedUpdate()
     {
         if (!isLocalPlayer) return;
+
+        if (!IsTurn) return;
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
@@ -74,10 +81,12 @@ public class PlayerController : NetworkBehaviour
         if (facingRight == false && moveInput > 0)
         {
             Flip();
+            //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = false;
         }
         else if (facingRight == true && moveInput < 0)
         {
             Flip();
+            //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = true;
         }
 
 
@@ -91,6 +100,8 @@ public class PlayerController : NetworkBehaviour
             //floatingInfo.transform.LookAt(Camera.main.transform);
             return;
         }
+
+        if (!IsTurn) return;
 
         if (isGrounded == true)
         {
@@ -143,6 +154,8 @@ public class PlayerController : NetworkBehaviour
                 activeWeapon.weaponAmmo -= 1;
                 //sceneScript.UIAmmo(activeWeapon.weaponAmmo);
                 CmdShootRay();
+                if (IsTurn)
+                    PlayerManager.singleton.NextPlayer();
             }
         }
     }
