@@ -4,19 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class WinLoseScreens : MonoBehaviour
 {
-    [SerializeField] GameObject winScreen, loseScreen;
+    [SerializeField] public GameObject winScreen, loseScreen;
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O)) //Fire1 is mouse 1st click
-        {
-            ShowWin();
-        }
-        if (Input.GetKeyDown(KeyCode.P)) //Fire1 is mouse 1st click
-        {
-            ShowLose();
-        }
-    }
     public void ShowLose()
     {
         loseScreen.SetActive(true);

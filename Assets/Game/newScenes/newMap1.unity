@@ -10315,6 +10315,8 @@ MonoBehaviour:
   currentTurnTime: 0
   turnTimeText: {fileID: 5795346427338193317}
   playerTurnText: {fileID: 0}
+  lostGame: {fileID: 2170023073299048343}
+  wonGame: {fileID: 4713352906950243609}
 --- !u!4 &2280966881440299355
 Transform:
   m_ObjectHideFlags: 0

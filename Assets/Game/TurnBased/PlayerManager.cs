@@ -24,6 +24,10 @@ public class PlayerManager : NetworkBehaviour
 
     public Text playerTurnText;
 
+    //end game stuff
+    private int DeadPlayers = 0;
+
+    private bool isReady = false;
 
 
     void onTurnTimeChanged(float _Old, float _New) { turnTimeText.text = "Time: " + _New.ToString("N0"); }
@@ -35,7 +39,7 @@ public class PlayerManager : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         singleton = this;
         //playerCamera = Camera.main.transform;
     }
@@ -45,6 +49,8 @@ public class PlayerManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(2);
         Players = GameObject.FindObjectsOfType<PlayerController>();
+        isReady = true;
+        //Players = GameObject.FindObjectsOfType<PlayerController>();
 
         //playerCamera.SetParent(Players[currentPlayer].transform);
         //playerCamera.localPosition = Vector3.zero + Vector3.back * 10;
@@ -55,26 +61,51 @@ public class PlayerManager : NetworkBehaviour
             {
                 Players[i].playerId = i;
             }
-            
+
             NextPlayer();
             currentTurnTime = MaxTurnTime;
         }
-       
+
 
     }
 
     public void Update()
     {
+        if (isReady)
+        {
+            for (int i = 0; i < Players.Length; i++)
+            {
+                if (Players[i].isDead)
+                {
+                    Players[i].isPlaying = false;
+                    DeadPlayers += 1;
+                }
+            }
+
+
+            if (Players.Length >= 2)
+            {
+                for (int i = 0; i < Players.Length; i++)
+                {
+
+                    if (Players[i].isDead == false && DeadPlayers == Players.Length - 1)
+                    {
+                        Players[i].hasWon = true;
+                    }
+                }
+            }
+        }
+
         if (!isServer)
             return;
-
+        Debug.Log(DeadPlayers);
         currentTurnTime -= Time.deltaTime;
 
-            if (currentTurnTime < 0)
-            {
+        if (currentTurnTime < 0)
+        {
 
-                StartCoroutine(NextPlayerCoroutine());
-            }
+            StartCoroutine(NextPlayerCoroutine());
+        }
     }
 
     public void NextPlayer()
@@ -93,6 +124,19 @@ public class PlayerManager : NetworkBehaviour
         //currentPlayer = -1;
 
         yield return new WaitForSeconds(2);
+
+        /*  
+          for (int i = 0; i < Players.Length; i++)
+          {
+              if (Players[i].GetComponent<NetworkIdentity>().isLocalPlayer)
+              {
+                  if (Players[i].isDead == false && DeadPlayers == Players.Length - 1)
+                  {
+                      wonGame.SetActive(true);
+                  }
+              }
+          }
+      */
 
         currentPlayer = nextPlayer;
         if (currentPlayer >= Players.Length)

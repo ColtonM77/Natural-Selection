@@ -38,6 +38,18 @@ public class PlayerController : NetworkBehaviour
 
     public Transform canvasBoard;
 
+    //endgame
+    public bool isDead = false;
+    public bool hasWon = false;
+    public bool isPlaying = true;
+
+    //end game stuff
+    [SerializeField]
+    private GameObject lostGame;
+
+    [SerializeField]
+    private GameObject wonGame;
+
     //turn based
     public bool IsTurn { get { return PlayerManager.singleton.IsMyTurn(playerId); } }
 
@@ -62,8 +74,12 @@ public class PlayerController : NetworkBehaviour
 
         if (!IsTurn) return;
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        if (isDead) return;
 
+        if (hasWon) return;
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        //anim.SetBool("isGrounded", isGrounded);
 
         moveInput = Input.GetAxisRaw("Horizontal");
         //Debug.Log(moveInput);
@@ -82,11 +98,25 @@ public class PlayerController : NetworkBehaviour
         {
             Flip();
             //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = false;
+            //Method 1
+            Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
+            activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x , activeWeaponTransform.localScale.y* -1, activeWeaponTransform.localScale.z);
+            //Method 2
+            // GameObject temp = GameObject.Find("GunHolder");
+            //Transform GunHolderTransform = temp.GetComponent<Transform>();
+            //GunHolderTransform.localScale = new Vector3(GunHolderTransform.localScale.x *, GunHolderTransform.localScale.y * -1, GunHolderTransform.localScale.z);
         }
         else if (facingRight == true && moveInput < 0)
         {
             Flip();
             //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = true;
+            //Method 1
+            Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
+            activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x, activeWeaponTransform.localScale.y * -1, activeWeaponTransform.localScale.z);
+            //Method 2
+            //GameObject temp3 = GameObject.Find("GunHolder");
+            //Transform GunHolderTransform = temp3.GetComponent<Transform>();
+            //GunHolderTransform.localScale = new Vector3(GunHolderTransform.localScale.x * -1, GunHolderTransform.localScale.y, GunHolderTransform.localScale.z);
         }
 
 
@@ -102,6 +132,18 @@ public class PlayerController : NetworkBehaviour
         }
 
         if (!IsTurn) return;
+
+        if (isDead)
+        {
+            lostGame.SetActive(true);
+            return;
+        }
+
+        if (hasWon)
+        {
+            wonGame.SetActive(true);
+            return;
+        }
 
         if (isGrounded == true)
         {
@@ -122,7 +164,7 @@ public class PlayerController : NetworkBehaviour
         {
             selectedWeaponLocal += 1;
 
-            if (selectedWeaponLocal > weaponArray.Length-1)
+            if (selectedWeaponLocal > weaponArray.Length - 1)
             {
                 selectedWeaponLocal = 1;
             }
@@ -136,7 +178,7 @@ public class PlayerController : NetworkBehaviour
 
             if (selectedWeaponLocal < 1)
             {
-                selectedWeaponLocal = weaponArray.Length-1;
+                selectedWeaponLocal = weaponArray.Length - 1;
             }
 
             CmdChangeActiveWeapon(selectedWeaponLocal);
@@ -146,7 +188,7 @@ public class PlayerController : NetworkBehaviour
         activeWeapon.direction = mousePos - (Vector2)activeWeapon.Gun.position;
         FaceMouse();
 
-        if (Input.GetButtonDown("Fire1")) //Fire1 is mouse 1st click
+        if (Input.GetMouseButtonDown(0)) //Fire1 is mouse 1st click
         {
             if (activeWeapon && Time.time > weaponCooldownTime && activeWeapon.weaponAmmo > 0)
             {
@@ -162,6 +204,7 @@ public class PlayerController : NetworkBehaviour
 
     void OnWeaponChanged(int _Old, int _New)
     {
+
         // disable old weapon
         // in range and not null
         if (0 < _Old && _Old < weaponArray.Length && weaponArray[_Old] != null)
@@ -244,6 +287,7 @@ public class PlayerController : NetworkBehaviour
         Scaler.x *= -1;
         transform.localScale = Scaler;
         */
+        
         transform.Rotate(0f, 180f, 0f);
         canvasBoard.transform.Rotate(0f, 180f, 0f);
     }
