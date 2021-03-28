@@ -24,11 +24,17 @@ namespace NaturalSelection.Mirror.Game.Lobby
         public static event Action OnClientDisconnected;
         public static event Action<NetworkConnection> OnServerReadied;
 
+        private int rand;
 
         public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
 
         public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
 
+        public override void Awake()
+        {
+            base.Awake();
+            rand = UnityEngine.Random.Range(1, 4);
+        }
         public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
 
         public override void OnStartClient()
@@ -129,14 +135,14 @@ namespace NaturalSelection.Mirror.Game.Lobby
             {
                 if (!IsReadyToStart()) { return; }
 
-                ServerChangeScene("1");
+                ServerChangeScene("Map" + rand);
             }
         }
 
         public override void ServerChangeScene(string newSceneName)
         {
             //From menu to game
-            if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("1"))
+            if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Map" + rand))
             {
                 for(int i = RoomPlayers.Count - 1; i >=0; i--)
                 {
@@ -153,7 +159,7 @@ namespace NaturalSelection.Mirror.Game.Lobby
 
         public override void OnServerSceneChanged(string sceneName)
         {
-            if (sceneName.StartsWith("1"))
+            if (sceneName.StartsWith("Map" + rand))
             {
                 GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
                 NetworkServer.Spawn(playerSpawnSystemInstance);

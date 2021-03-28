@@ -17,7 +17,7 @@ public class Bullet : NetworkBehaviour
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
         //prints to console the name of the game object that was hit
-        Debug.Log(hitInfo.name);
+        //Debug.Log(hitInfo.name);
         //Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
     }

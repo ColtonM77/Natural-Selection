@@ -17,7 +17,7 @@ public class PlayerManager : NetworkBehaviour
 
     [SyncVar]
     public float MaxTurnTime;
-    [SyncVar(hook = nameof(onTurnTimeChanged))]
+    [SyncVar(hook = nameof(OnTurnTimeChanged))]
     public float currentTurnTime;
 
     public Text turnTimeText;
@@ -30,7 +30,7 @@ public class PlayerManager : NetworkBehaviour
     private bool isReady = false;
 
 
-    void onTurnTimeChanged(float _Old, float _New) { turnTimeText.text = "Time: " + _New.ToString("N0"); }
+    void OnTurnTimeChanged(float _Old, float _New) { turnTimeText.text = "Time: " + _New.ToString("N0"); }
 
     private void Awake()
     {
@@ -98,7 +98,6 @@ public class PlayerManager : NetworkBehaviour
 
         if (!isServer)
             return;
-        Debug.Log(DeadPlayers);
         currentTurnTime -= Time.deltaTime;
 
         if (currentTurnTime < 0)

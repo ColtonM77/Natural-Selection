@@ -32,10 +32,10 @@ namespace Game
         private int currentAmmo;
         public float reloadTime = 1f;
         public int maxAmmo;
-        private bool isReloading = false;
+        //private bool isReloading = false;
         public Animator animator;
         
-
+        //new weapon
         public float weaponSpeed = 15.0f;
         public float weaponLife = 3.0f;
         public float weaponCooldown = 1.0f;

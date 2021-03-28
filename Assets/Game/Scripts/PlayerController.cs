@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -23,6 +24,9 @@ public class PlayerController : NetworkBehaviour
     private int extraJumps;
     public int extraJumpsValue;
 
+    // ammo display variables
+    public bool isFiring;
+    public Text ammoDisplay;
 
     private Animator anim;
 
@@ -79,7 +83,7 @@ public class PlayerController : NetworkBehaviour
         if (hasWon) return;
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        //anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isGrounded", isGrounded);
 
         moveInput = Input.GetAxisRaw("Horizontal");
         //Debug.Log(moveInput);
@@ -99,8 +103,7 @@ public class PlayerController : NetworkBehaviour
             Flip();
             //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = false;
             //Method 1
-            Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
-            activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x , activeWeaponTransform.localScale.y* -1, activeWeaponTransform.localScale.z);
+            FlipWeapon();
             //Method 2
             // GameObject temp = GameObject.Find("GunHolder");
             //Transform GunHolderTransform = temp.GetComponent<Transform>();
@@ -111,8 +114,7 @@ public class PlayerController : NetworkBehaviour
             Flip();
             //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = true;
             //Method 1
-            Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
-            activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x, activeWeaponTransform.localScale.y * -1, activeWeaponTransform.localScale.z);
+            FlipWeapon();
             //Method 2
             //GameObject temp3 = GameObject.Find("GunHolder");
             //Transform GunHolderTransform = temp3.GetComponent<Transform>();
@@ -160,8 +162,13 @@ public class PlayerController : NetworkBehaviour
             rb.velocity = Vector2.up * jumpForce;
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) //Fire2 is mouse 2nd click and left alt
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            if (facingRight == false)
+            {
+                FlipWeapon();
+            }
+
             selectedWeaponLocal += 1;
 
             if (selectedWeaponLocal > weaponArray.Length - 1)
@@ -170,10 +177,20 @@ public class PlayerController : NetworkBehaviour
             }
 
             CmdChangeActiveWeapon(selectedWeaponLocal);
+
+            if (facingRight == false)
+            {
+                FlipWeapon();
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) //Fire2 is mouse 2nd click and left alt
+        if (Input.GetKeyDown(KeyCode.Q))
         {
+            if (facingRight == false)
+            {
+                FlipWeapon();
+            }
+
             selectedWeaponLocal -= 1;
 
             if (selectedWeaponLocal < 1)
@@ -182,18 +199,24 @@ public class PlayerController : NetworkBehaviour
             }
 
             CmdChangeActiveWeapon(selectedWeaponLocal);
+
+            if (facingRight == false)
+            {
+                FlipWeapon();
+            }
         }
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         activeWeapon.direction = mousePos - (Vector2)activeWeapon.Gun.position;
         FaceMouse();
 
-        if (Input.GetMouseButtonDown(0)) //Fire1 is mouse 1st click
+        ammoDisplay.text = activeWeapon.weaponAmmo.ToString();
+
+        if (Input.GetMouseButtonDown(0) && !isFiring) //Fire1 is mouse 1st click
         {
             if (activeWeapon && Time.time > weaponCooldownTime && activeWeapon.weaponAmmo > 0)
             {
                 weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
-                activeWeapon.weaponAmmo -= 1;
                 //sceneScript.UIAmmo(activeWeapon.weaponAmmo);
                 CmdShootRay();
                 if (IsTurn)
@@ -260,14 +283,15 @@ public class PlayerController : NetworkBehaviour
 
         */
         //ammo
+        isFiring = true;
         activeWeapon.weaponAmmo--;
+        isFiring = false;
 
         GameObject BulletIns = Instantiate(activeWeapon.Bullet, activeWeapon.ShootPoint.position, activeWeapon.ShootPoint.rotation);
         BulletIns.GetComponent<Rigidbody2D>().AddForce(BulletIns.transform.right * activeWeapon.BulletSpeed);
+        if (BulletIns) { Destroy(BulletIns, activeWeapon.weaponLife); }
         activeWeapon.gunAnimator.SetTrigger("Shoot");
         //CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
-        Destroy(BulletIns, 2);
-
     }
 
     //gun faces mouse
@@ -290,5 +314,11 @@ public class PlayerController : NetworkBehaviour
         
         transform.Rotate(0f, 180f, 0f);
         canvasBoard.transform.Rotate(0f, 180f, 0f);
+    }
+
+    void FlipWeapon()
+    {
+        Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
+        activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x, activeWeaponTransform.localScale.y * -1, activeWeaponTransform.localScale.z);
     }
 }

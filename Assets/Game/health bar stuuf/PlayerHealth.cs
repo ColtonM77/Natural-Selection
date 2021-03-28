@@ -55,7 +55,20 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (col.transform.GetComponent<Bullet>())
         {
-            TakeDamage(20);
+            if (col.name.StartsWith("GunOne"))
+            {
+                TakeDamage(10);
+            }
+
+            if (col.name.StartsWith("GunTwo"))
+            {
+                TakeDamage(20);
+            }
+
+            if (col.name.StartsWith("GunThree"))
+            {
+                TakeDamage(30);
+            }
         }
     }
 
