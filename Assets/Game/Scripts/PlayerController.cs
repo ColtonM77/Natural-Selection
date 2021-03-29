@@ -123,13 +123,13 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
-        if (!IsTurn) return;
-
         if (isDead)
         {
             lostGame.SetActive(true);
             return;
         }
+
+        if (!IsTurn) return;
 
         if (hasWon)
         {
@@ -193,10 +193,10 @@ public class PlayerController : NetworkBehaviour
                 weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
                 //sceneScript.UIAmmo(activeWeapon.weaponAmmo);
                 CmdShootRay();
-                //if (IsTurn)
-                PlayerManager.singleton.NextPlayer();
                 //hasShot = true;
-}
+                if (IsTurn)
+                    PlayerManager.singleton.NextPlayer();
+            }
         }
     }
 
@@ -259,7 +259,7 @@ public class PlayerController : NetworkBehaviour
         */
         //ammo
 
-        PlayerManager.singleton.NextPlayer();
+        //PlayerManager.singleton.NextPlayer();
 
         activeWeapon.PlayAudio();
 

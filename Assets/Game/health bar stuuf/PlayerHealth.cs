@@ -10,6 +10,7 @@ public class PlayerHealth : NetworkBehaviour
     public int maxHealth = 100;
 
     //[SyncVar(hook = nameof(HandleHealthUpdated))]
+    [SyncVar]
     public int currentHealth;
 
     public HealthBar healthBar;

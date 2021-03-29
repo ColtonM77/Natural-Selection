@@ -922,6 +922,7 @@ GameObject:
   - component: {fileID: 3033398323380863677}
   - component: {fileID: 6609277501404296897}
   - component: {fileID: 2767207482911754459}
+  - component: {fileID: 8705875901912122141}
   m_Layer: 0
   m_Name: PlayerGreen
   m_TagString: Untagged
@@ -1037,6 +1038,7 @@ MonoBehaviour:
   lostGame: {fileID: 5242477455182718609}
   wonGame: {fileID: 1708355728221025311}
   playerId: 0
+  hasShot: 0
   jumping: {fileID: 8693972586477419111}
   weaponSwitch: {fileID: 4240428926594727177}
 --- !u!70 &5431430634467355935
@@ -1257,6 +1259,25 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 3602468835856180172}
+--- !u!114 &8705875901912122141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602468835856180274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  target: {fileID: 4980156193878946464}
 --- !u!1 &3602468836561462385
 GameObject:
   m_ObjectHideFlags: 0

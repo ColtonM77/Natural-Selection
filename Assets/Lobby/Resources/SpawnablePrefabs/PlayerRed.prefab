@@ -3638,6 +3638,7 @@ GameObject:
   - component: {fileID: 7485307514035802880}
   - component: {fileID: 1603618935186679676}
   - component: {fileID: -1414929905374540546}
+  - component: {fileID: 2791232291154845711}
   m_Layer: 0
   m_Name: PlayerRed
   m_TagString: Untagged
@@ -3753,6 +3754,7 @@ MonoBehaviour:
   lostGame: {fileID: 376307074480715564}
   wonGame: {fileID: 6506751799944635810}
   playerId: 0
+  hasShot: 0
   jumping: {fileID: 4955356806190754973}
   weaponSwitch: {fileID: 1454464851517726410}
 --- !u!70 &475619391024839842
@@ -3973,6 +3975,25 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 8937224563819033201}
+--- !u!114 &2791232291154845711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937224563819033999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  target: {fileID: 640915904084239133}
 --- !u!1 &9165042730914428264
 GameObject:
   m_ObjectHideFlags: 0

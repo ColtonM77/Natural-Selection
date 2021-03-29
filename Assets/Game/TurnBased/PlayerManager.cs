@@ -52,13 +52,13 @@ public class PlayerManager : NetworkBehaviour
 
         //if (isServer)
         //{
-            for (int i = 0; i < Players.Length; i++)
-            {
-                Players[i].playerId = i;
-            }
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].playerId = i;
+        }
 
-            NextPlayer();
-            currentTurnTime = MaxTurnTime;
+        NextPlayer();
+        currentTurnTime = MaxTurnTime;
         //}
 
 
@@ -70,10 +70,13 @@ public class PlayerManager : NetworkBehaviour
         {
             for (int i = 0; i < Players.Length; i++)
             {
-                if (Players[i].isDead)
+                if (Players[i].isPlaying == true)
                 {
-                    Players[i].isPlaying = false;
-                    DeadPlayers += 1;
+                    if (Players[i].isDead)
+                    {
+                        Players[i].isPlaying = false;
+                        DeadPlayers += 1;
+                    }
                 }
             }
 
@@ -90,14 +93,14 @@ public class PlayerManager : NetworkBehaviour
                 }
             }
 
-            if(Players[currentPlayer].hasShot == true)
+            if (Players[currentPlayer].hasShot == true)
             {
-                NextPlayer();
+                StartCoroutine(NextPlayerCoroutine());
             }
         }
 
         //if (!isServer)
-            //return;
+        //return;
         currentTurnTime -= Time.deltaTime;
 
         if (currentTurnTime < 0)
@@ -110,7 +113,7 @@ public class PlayerManager : NetworkBehaviour
     public void NextPlayer()
     {
         //if (!isServer)
-            //return;
+        //return;
 
         StartCoroutine(NextPlayerCoroutine());
     }

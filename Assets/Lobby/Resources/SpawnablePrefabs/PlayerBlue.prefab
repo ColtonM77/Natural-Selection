@@ -3009,6 +3009,7 @@ GameObject:
   - component: {fileID: 5041789840674781394}
   - component: {fileID: 3771795815427280046}
   - component: {fileID: -1307784466389305457}
+  - component: {fileID: 3740097952020217072}
   m_Layer: 0
   m_Name: PlayerBlue
   m_TagString: Untagged
@@ -3081,7 +3082,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.9375, y: 1.0625}
+  m_Size: {x: 1.5, y: 1.375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3124,6 +3125,7 @@ MonoBehaviour:
   lostGame: {fileID: 2819754649175645438}
   wonGame: {fileID: 8670993793654722160}
   playerId: 0
+  hasShot: 0
   jumping: {fileID: 8589753756958646840}
   weaponSwitch: {fileID: 8068804541543414327}
 --- !u!70 &2630264855469217648
@@ -3229,7 +3231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 5766871459672382695}
@@ -3344,6 +3346,25 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 6781938078763800995}
+--- !u!114 &3740097952020217072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781938078763802205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  target: {fileID: 3097864381085223119}
 --- !u!1 &6781938078998011422
 GameObject:
   m_ObjectHideFlags: 0
