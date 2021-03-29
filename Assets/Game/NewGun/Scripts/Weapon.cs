@@ -44,6 +44,13 @@ namespace Game
         public GameObject weaponBullet;
         public Transform weaponFirePosition;
 
+        public AudioSource bulletshot;
+
+
+        public void PlayAudio()
+        {
+            bulletshot.Play();
+        }
         /*
         // Start is called before the first frame update
         void Start()

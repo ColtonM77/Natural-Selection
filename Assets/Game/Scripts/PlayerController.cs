@@ -59,6 +59,10 @@ public class PlayerController : NetworkBehaviour
 
     public int playerId;
 
+    //sfx
+    public AudioSource jumping;
+    public AudioSource weaponSwitch;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,7 +90,6 @@ public class PlayerController : NetworkBehaviour
         anim.SetBool("isGrounded", isGrounded);
 
         moveInput = Input.GetAxisRaw("Horizontal");
-        //Debug.Log(moveInput);
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
         if (moveInput == 0)
@@ -101,26 +104,11 @@ public class PlayerController : NetworkBehaviour
         if (facingRight == false && moveInput > 0)
         {
             Flip();
-            //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = false;
-            //Method 1
-            FlipWeapon();
-            //Method 2
-            // GameObject temp = GameObject.Find("GunHolder");
-            //Transform GunHolderTransform = temp.GetComponent<Transform>();
-            //GunHolderTransform.localScale = new Vector3(GunHolderTransform.localScale.x *, GunHolderTransform.localScale.y * -1, GunHolderTransform.localScale.z);
         }
         else if (facingRight == true && moveInput < 0)
         {
             Flip();
-            //activeWeapon.GetComponentInChildren<SpriteRenderer>().flipY = true;
-            //Method 1
-            FlipWeapon();
-            //Method 2
-            //GameObject temp3 = GameObject.Find("GunHolder");
-            //Transform GunHolderTransform = temp3.GetComponent<Transform>();
-            //GunHolderTransform.localScale = new Vector3(GunHolderTransform.localScale.x * -1, GunHolderTransform.localScale.y, GunHolderTransform.localScale.z);
         }
-
 
     }
 
@@ -155,20 +143,17 @@ public class PlayerController : NetworkBehaviour
         if ((Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetKeyDown(KeyCode.W))) && extraJumps > 0)
         {
             rb.velocity = Vector2.up * jumpForce;
+            jumping.Play();
             extraJumps--;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true)
+        else if ((Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetKeyDown(KeyCode.W))) && extraJumps == 0 && isGrounded == true)
         {
             rb.velocity = Vector2.up * jumpForce;
+            jumping.Play();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (facingRight == false)
-            {
-                FlipWeapon();
-            }
-
             selectedWeaponLocal += 1;
 
             if (selectedWeaponLocal > weaponArray.Length - 1)
@@ -176,21 +161,12 @@ public class PlayerController : NetworkBehaviour
                 selectedWeaponLocal = 1;
             }
 
+            weaponSwitch.Play();
             CmdChangeActiveWeapon(selectedWeaponLocal);
-
-            if (facingRight == false)
-            {
-                FlipWeapon();
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (facingRight == false)
-            {
-                FlipWeapon();
-            }
-
             selectedWeaponLocal -= 1;
 
             if (selectedWeaponLocal < 1)
@@ -198,12 +174,8 @@ public class PlayerController : NetworkBehaviour
                 selectedWeaponLocal = weaponArray.Length - 1;
             }
 
+            weaponSwitch.Play();
             CmdChangeActiveWeapon(selectedWeaponLocal);
-
-            if (facingRight == false)
-            {
-                FlipWeapon();
-            }
         }
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -283,6 +255,9 @@ public class PlayerController : NetworkBehaviour
 
         */
         //ammo
+
+        activeWeapon.PlayAudio();
+
         isFiring = true;
         activeWeapon.weaponAmmo--;
         isFiring = false;
@@ -314,11 +289,18 @@ public class PlayerController : NetworkBehaviour
         
         transform.Rotate(0f, 180f, 0f);
         canvasBoard.transform.Rotate(0f, 180f, 0f);
+        FlipWeapon();
     }
 
     void FlipWeapon()
     {
-        Transform activeWeaponTransform = activeWeapon.GetComponentInChildren<Transform>();
-        activeWeaponTransform.localScale = new Vector3(activeWeaponTransform.localScale.x, activeWeaponTransform.localScale.y * -1, activeWeaponTransform.localScale.z);
+        Transform weaponOneTransform = weaponArray[1].GetComponentInChildren<Transform>();
+        weaponOneTransform.localScale = new Vector3(weaponOneTransform.localScale.x, weaponOneTransform.localScale.y * -1, weaponOneTransform.localScale.z);
+
+        Transform weaponTwoTransform = weaponArray[2].GetComponentInChildren<Transform>();
+        weaponTwoTransform.localScale = new Vector3(weaponTwoTransform.localScale.x, weaponTwoTransform.localScale.y * -1, weaponTwoTransform.localScale.z);
+
+        Transform weaponThreeTransform = weaponArray[3].GetComponentInChildren<Transform>();
+        weaponThreeTransform.localScale = new Vector3(weaponThreeTransform.localScale.x, weaponThreeTransform.localScale.y * -1, weaponThreeTransform.localScale.z);
     }
 }
