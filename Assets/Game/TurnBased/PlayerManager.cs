@@ -41,7 +41,6 @@ public class PlayerManager : NetworkBehaviour
         }
 
         singleton = this;
-        //playerCamera = Camera.main.transform;
     }
 
 
@@ -50,13 +49,9 @@ public class PlayerManager : NetworkBehaviour
         yield return new WaitForSeconds(2);
         Players = GameObject.FindObjectsOfType<PlayerController>();
         isReady = true;
-        //Players = GameObject.FindObjectsOfType<PlayerController>();
 
-        //playerCamera.SetParent(Players[currentPlayer].transform);
-        //playerCamera.localPosition = Vector3.zero + Vector3.back * 10;
-
-        if (isServer)
-        {
+        //if (isServer)
+        //{
             for (int i = 0; i < Players.Length; i++)
             {
                 Players[i].playerId = i;
@@ -64,7 +59,7 @@ public class PlayerManager : NetworkBehaviour
 
             NextPlayer();
             currentTurnTime = MaxTurnTime;
-        }
+        //}
 
 
     }
@@ -94,23 +89,28 @@ public class PlayerManager : NetworkBehaviour
                     }
                 }
             }
+
+            if(Players[currentPlayer].hasShot == true)
+            {
+                NextPlayer();
+            }
         }
 
-        if (!isServer)
-            return;
+        //if (!isServer)
+            //return;
         currentTurnTime -= Time.deltaTime;
 
         if (currentTurnTime < 0)
         {
 
-            StartCoroutine(NextPlayerCoroutine());
+            NextPlayer();
         }
     }
 
     public void NextPlayer()
     {
-        if (!isServer)
-            return;
+        //if (!isServer)
+            //return;
 
         StartCoroutine(NextPlayerCoroutine());
     }
@@ -123,19 +123,6 @@ public class PlayerManager : NetworkBehaviour
         //currentPlayer = -1;
 
         yield return new WaitForSeconds(2);
-
-        /*  
-          for (int i = 0; i < Players.Length; i++)
-          {
-              if (Players[i].GetComponent<NetworkIdentity>().isLocalPlayer)
-              {
-                  if (Players[i].isDead == false && DeadPlayers == Players.Length - 1)
-                  {
-                      wonGame.SetActive(true);
-                  }
-              }
-          }
-      */
 
         currentPlayer = nextPlayer;
         if (currentPlayer >= Players.Length)

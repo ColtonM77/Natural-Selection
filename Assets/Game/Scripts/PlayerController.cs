@@ -59,6 +59,8 @@ public class PlayerController : NetworkBehaviour
 
     public int playerId;
 
+    public bool hasShot = false;
+
     //sfx
     public AudioSource jumping;
     public AudioSource weaponSwitch;
@@ -191,9 +193,10 @@ public class PlayerController : NetworkBehaviour
                 weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
                 //sceneScript.UIAmmo(activeWeapon.weaponAmmo);
                 CmdShootRay();
-                if (IsTurn)
-                    PlayerManager.singleton.NextPlayer();
-            }
+                //if (IsTurn)
+                PlayerManager.singleton.NextPlayer();
+                //hasShot = true;
+}
         }
     }
 
@@ -255,6 +258,8 @@ public class PlayerController : NetworkBehaviour
 
         */
         //ammo
+
+        PlayerManager.singleton.NextPlayer();
 
         activeWeapon.PlayAudio();
 
